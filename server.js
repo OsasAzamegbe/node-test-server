@@ -1,9 +1,12 @@
-const Logger = require('./Logger')
+const fs = require('fs')
+const http = require('http')
 
-const logger = new Logger()
+const PORT = process.env.PORT || 5000
 
-logger.on('message', data => console.log("Received this message:", data))
+const server = http.createServer((req, res) => {
+    res.writeHead(200, {'Content-type': 'text/html'})
+    res.write('<h1 style="display: flex; justify-content: center;">HOME PAGE</h1>')
+    res.end()
+})
 
-logger.log('Start server')
-logger.log('Response 200')
-logger.log('404 Not found')
+server.listen(PORT, () => console.log(`Server Started.\nServer running on port ${PORT}...`))
