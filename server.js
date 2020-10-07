@@ -38,10 +38,24 @@ const server = http.createServer((req, res) =>{
 
     // read file
     fs.readFile(filePath, (err, data) => {
-        if (err) throw err;
+        if (err) {
+            if (err.code === 'ENOENT') {
+                fs.readFile(path.join(__dirname, 'public', '404.html'), (err, data) => {
+                    if (err) throw err;
 
-        res.writeHead(200, contentType)
-        res.write(data)
+                    res.writeHead(404, {'Content-type': 'text/html'})
+                    res.write(data, 'utf-8')
+                    res.end()
+                })
+            } else {
+                res.writeHead(500)
+                res.write(`Server Error: ${err.code}`)
+                res.end()
+            }
+        }
+
+        res.writeHead(200, {'Content-type': contentType})
+        res.write(data, 'utf-8')
         res.end()
     })
 
