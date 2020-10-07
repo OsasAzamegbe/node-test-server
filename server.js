@@ -36,6 +36,15 @@ const server = http.createServer((req, res) =>{
             break;
     }
 
+    // read file
+    fs.readFile(filePath, (err, data) => {
+        if (err) throw err;
+
+        res.writeHead(200, contentType)
+        res.write(data)
+        res.end()
+    })
+
     
 })
 
