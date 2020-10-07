@@ -52,11 +52,11 @@ const server = http.createServer((req, res) =>{
                 res.write(`Server Error: ${err.code}`)
                 res.end()
             }
+        } else {
+            res.writeHead(200, {'Content-type': contentType})
+            res.write(data, 'utf-8')
+            res.end()
         }
-
-        res.writeHead(200, {'Content-type': contentType})
-        res.write(data, 'utf-8')
-        res.end()
     })
 
     
